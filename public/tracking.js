@@ -58,6 +58,24 @@
             formCount: document.forms.length
         };
         console.log('Data: '+data);
+        console.log("URL:", window.location.href);
+        console.log("Title:", document.title);
+        console.log("Referrer:", document.referrer);
+        console.log("Device Type:", navigator.userAgent);
+        console.log("Timestamp:", new Date().toISOString());
+        console.log("Project Code:", projectCode);
+        console.log("Session ID:", getSessionId());
+        console.log("Hostname:", window.location.hostname);
+        console.log("Protocol:", window.location.protocol);
+        console.log("Pathname:", window.location.pathname);
+        console.log("Language:", navigator.language);
+        console.log("Cookie Enabled:", navigator.cookieEnabled);
+        console.log("Screen Width:", screen.width);
+        console.log("Screen Height:", screen.height);
+        console.log("History Length:", history.length);
+        console.log("Word Count:", document.body.innerText.split(' ').length);
+        console.log("Form Count:", document.forms.length);
+
         sendData(data);
     }
 
