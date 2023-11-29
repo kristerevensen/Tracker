@@ -1,19 +1,23 @@
 (function() {
     var projectCode = document.currentScript.getAttribute('data-project-code');
-
+    console.log('Start:');
+    console.log('Project: '+projectCode);
     function getSessionId() {
         var sessionId = localStorage.getItem('mt_session_id');
         if (!sessionId) {
             sessionId = Math.random().toString(36).substring(2, 15);
             localStorage.setItem('mt_session_id', sessionId);
         }
+        console.log('SessionID: '+sessionId);
         return sessionId;
     }
 
     function collectLinkClicks() {
         document.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function() {
-                sendData({ eventType: 'linkClick', linkUrl: link.href });
+
+                var sendData2 = sendData({ eventType: 'linkClick', linkUrl: link.href });
+                console.log(sendData2);
             });
         });
     }
@@ -53,7 +57,7 @@
             wordCount: document.body.innerText.split(' ').length,
             formCount: document.forms.length
         };
-
+        console.log('Data: '+data);
         sendData(data);
     }
 
