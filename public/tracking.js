@@ -1,14 +1,14 @@
 (function() {
     var projectCode = document.currentScript.getAttribute('data-project-code');
-    console.log('Start:');
-    console.log('Project: '+projectCode);
+    //console.log('Start:');
+    //console.log('Project: '+projectCode);
     function getSessionId() {
         var sessionId = localStorage.getItem('mt_session_id');
         if (!sessionId) {
             sessionId = Math.random().toString(36).substring(2, 15);
             localStorage.setItem('mt_session_id', sessionId);
         }
-        console.log('SessionID: '+sessionId);
+        //console.log('SessionID: '+sessionId);
         return sessionId;
     }
 
@@ -17,7 +17,7 @@
             link.addEventListener('click', function() {
 
                 var sendData2 = sendData({ eventType: 'linkClick', linkUrl: link.href });
-                console.log(sendData2);
+                //console.log(sendData2);
             });
         });
     }
@@ -57,24 +57,24 @@
             wordCount: document.body.innerText.split(' ').length,
             formCount: document.forms.length
         };
-        console.log('Data: '+data);
-        console.log("URL:", window.location.href);
-        console.log("Title:", document.title);
-        console.log("Referrer:", document.referrer);
-        console.log("Device Type:", navigator.userAgent);
-        console.log("Timestamp:", new Date().toISOString());
-        console.log("Project Code:", projectCode);
-        console.log("Session ID:", getSessionId());
-        console.log("Hostname:", window.location.hostname);
-        console.log("Protocol:", window.location.protocol);
-        console.log("Pathname:", window.location.pathname);
-        console.log("Language:", navigator.language);
-        console.log("Cookie Enabled:", navigator.cookieEnabled);
-        console.log("Screen Width:", screen.width);
-        console.log("Screen Height:", screen.height);
-        console.log("History Length:", history.length);
-        console.log("Word Count:", document.body.innerText.split(' ').length);
-        console.log("Form Count:", document.forms.length);
+        //console.log('Data: '+data);
+        //console.log("URL:", window.location.href);
+        //console.log("Title:", document.title);
+        //console.log("Referrer:", document.referrer);
+        //console.log("Device Type:", navigator.userAgent);
+        //console.log("Timestamp:", new Date().toISOString());
+        //console.log("Project Code:", projectCode);
+        //console.log("Session ID:", getSessionId());
+        //console.log("Hostname:", window.location.hostname);
+        //console.log("Protocol:", window.location.protocol);
+        //console.log("Pathname:", window.location.pathname);
+        //console.log("Language:", navigator.language);
+        //console.log("Cookie Enabled:", navigator.cookieEnabled);
+        //console.log("Screen Width:", screen.width);
+        //console.log("Screen Height:", screen.height);
+        //console.log("History Length:", history.length);
+        //console.log("Word Count:", document.body.innerText.split(' ').length);
+        //console.log("Form Count:", document.forms.length);
 
         sendData(data);
     }
