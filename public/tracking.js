@@ -45,7 +45,7 @@
             device_type: navigator.userAgent,
             timestamp: new Date().toISOString(),
             project_code: projectCode,
-            sessionId: getSessionId(),
+            session_id: getSessionId(),
             hostname: window.location.hostname,
             protocol: window.location.protocol,
             pathname: window.location.pathname,
