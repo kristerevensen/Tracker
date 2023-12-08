@@ -38,6 +38,20 @@
     }
 
     function collectData() {
+        var outBoundLinks = [],
+        inBoundLinks = [];
+
+        const links = document.querySelectorAll('a');
+        for (const link of links) {
+            const href = link.getAttribute('href');
+            if (href && href.indexOf('http') === 0) {
+                if (href.startsWith(window.location.hostname)) {
+                    inBoundLinks.push(href);
+                } else {
+                    outBoundLinks.push(href);
+                }
+            }
+        }
         var data = {
             url: window.location.href,
             title: document.title,
@@ -55,7 +69,10 @@
             screen_height: screen.height,
             history_length: history.length,
             word_count: document.body.innerText.split(' ').length,
-            form_count: document.forms.length
+            form_count: document.forms.length,
+            meta_description: getMetaDescription(),
+            outbound_links: outBoundLinks,
+            inbound_links: inBoundLinks
         };
         //console.log('Data: '+data);
         //console.log("URL:", window.location.href);
@@ -77,6 +94,11 @@
         //console.log("Form Count:", document.forms.length);
 
         sendData(data);
+    }
+
+    function getMetaDescription() {
+        const metaDesc = document.querySelector('meta[name="description"]').getAttribute('content');
+        return metaDesc;
     }
 
     function sendData(data) {

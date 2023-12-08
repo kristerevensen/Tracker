@@ -43,6 +43,9 @@ class CollectorController extends Controller
             $analytics->history_length = $request->input('history_length');
             $analytics->word_count = $request->input('word_count');
             $analytics->form_count = $request->input('form_count');
+            $analytics->meta_description = $request->input('meta_description');
+            $analytics->outbound_links = serialize(json_encode($request->input('outbound_links')));
+            $analytics->inbound_links = serialize(json_encode($request->input('inbound_links')));
             $analytics->save();
 
             return response()->json(['message' => 'Analytics data stored successfully'], 201);
