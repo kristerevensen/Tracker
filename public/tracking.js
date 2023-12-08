@@ -42,20 +42,20 @@
             url: window.location.href,
             title: document.title,
             referrer: document.referrer,
-            deviceType: navigator.userAgent,
+            device_type: navigator.userAgent,
             timestamp: new Date().toISOString(),
-            projectCode: projectCode,
+            project_code: projectCode,
             sessionId: getSessionId(),
             hostname: window.location.hostname,
             protocol: window.location.protocol,
             pathname: window.location.pathname,
             language: navigator.language,
-            cookieEnabled: navigator.cookieEnabled,
-            screenWidth: screen.width,
-            screenHeight: screen.height,
-            historyLength: history.length,
-            wordCount: document.body.innerText.split(' ').length,
-            formCount: document.forms.length
+            cookie_enabled: navigator.cookieEnabled,
+            screen_width: screen.width,
+            screen_height: screen.height,
+            history_length: history.length,
+            word_count: document.body.innerText.split(' ').length,
+            form_count: document.forms.length
         };
         //console.log('Data: '+data);
         //console.log("URL:", window.location.href);
