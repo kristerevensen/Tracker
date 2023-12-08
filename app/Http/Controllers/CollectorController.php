@@ -9,8 +9,9 @@ use App\Models\Project;
 class CollectorController extends Controller
 {
     //
-    public function index() {
-       // return view("");
+    public function index()
+    {
+        // return view("");
     }
     public function store(Request $request)
     {
@@ -18,9 +19,9 @@ class CollectorController extends Controller
         $projectCode = $request->input('project_code');
         if (!Project::where('project_code', $projectCode)->exists()) {
             return response()->json(['error' => 'Invalid project code'], 400)
-                            ->header('Access-Control-Allow-Origin', '*')
-                            ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-                            ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
+                ->header('Access-Control-Allow-Origin', '*')
+                ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
         }
 
         try {
@@ -30,20 +31,29 @@ class CollectorController extends Controller
             $analytics->title = $request->input('title');
             $analytics->referrer = $request->input('referrer');
             $analytics->device_type = $request->input('device_type');
-           //$analytics->timestamp = now(); // Assuming you want to capture the current timestamp
-            $analytics->project_code = $projectCode;
-            // Assign other fields from the request as needed
+            $analytics->project_code = $request->input('project_code');
+            $analytics->session_id = $request->input('session_id');
+            $analytics->hostname = $request->input('hostname');
+            $analytics->protocol = $request->input('protocol');
+            $analytics->pathname = $request->input('pathname');
+            $analytics->language = $request->input('language');
+            $analytics->cookie_enabled = $request->input('cookie_enabled');
+            $analytics->screen_width = $request->input('screen_width');
+            $analytics->screen_height = $request->input('screen_height');
+            $analytics->history_length = $request->input('history_length');
+            $analytics->word_count = $request->input('word_count');
+            $analytics->form_count = $request->input('form_count');
             $analytics->save();
 
             return response()->json(['message' => 'Analytics data stored successfully'], 201)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-            ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
-            } catch (\Exception $e) {
+                ->header('Access-Control-Allow-Origin', '*')
+                ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to store analytics data', 'details' => $e->getMessage()], 500)
-                        ->header('Access-Control-Allow-Origin', '*')
-                        ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-                        ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
-            }
+                ->header('Access-Control-Allow-Origin', '*')
+                ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
+        }
     }
 }
