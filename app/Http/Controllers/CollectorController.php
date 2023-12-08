@@ -45,15 +45,15 @@ class CollectorController extends Controller
             $analytics->form_count = $request->input('form_count');
             $analytics->save();
 
-            return response()->json(['message' => 'Analytics data stored successfully'], 201)
-                ->header('Access-Control-Allow-Origin', '*')
-                ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
+            return response()->json(['message' => 'Analytics data stored successfully'], 201);
+               // ->header('Access-Control-Allow-Origin', '*')
+                //->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+                //->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to store analytics data', 'details' => $e->getMessage()], 500)
-                ->header('Access-Control-Allow-Origin', '*')
-                ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
+            return response()->json(['error' => 'Failed to store analytics data', 'details' => $e->getMessage()], 500);
+                //->header('Access-Control-Allow-Origin', '*')
+               // ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+                //->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
         }
     }
 }
