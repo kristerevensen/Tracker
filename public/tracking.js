@@ -2,13 +2,32 @@
     var projectCode = document.currentScript.getAttribute('data-project-code');
     //console.log('Start:');
     //console.log('Project: '+projectCode);
+
+    //function getSessionId() {
+     ////   var sessionId = localStorage.getItem('mt_session_id');
+     //   if (!sessionId) {
+     //       sessionId = Math.random().toString(36).substring(2, 15);
+     //       localStorage.setItem('mt_session_id', sessionId);
+     //   }
+     //   //console.log('SessionID: '+sessionId);
+     //   return sessionId;
+    //}
+
     function getSessionId() {
         var sessionId = localStorage.getItem('mt_session_id');
-        if (!sessionId) {
+        var timestamp = localStorage.getItem('mt_session_timestamp');
+        var currentTime = new Date().getTime();
+
+        // Sjekk om sessionId er satt og om det har gått mer enn 30 minutter (1800000 millisekunder)
+        if (!sessionId || !timestamp || currentTime - parseInt(timestamp) > 1800000) {
             sessionId = Math.random().toString(36).substring(2, 15);
             localStorage.setItem('mt_session_id', sessionId);
+            localStorage.setItem('mt_session_timestamp', currentTime.toString());
+        } else {
+            // Oppdaterer tidsstempelet for aktiv bruk
+            localStorage.setItem('mt_session_timestamp', currentTime.toString());
         }
-        //console.log('SessionID: '+sessionId);
+
         return sessionId;
     }
 
