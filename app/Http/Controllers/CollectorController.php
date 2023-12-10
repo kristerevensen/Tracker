@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Analytics;
 use App\Models\Project;
+use Illuminate\Support\Str;
 
 class CollectorController extends Controller
 {
@@ -12,6 +13,10 @@ class CollectorController extends Controller
     public function index()
     {
         // return view("");
+    }
+    public function generateUniqueId($length = 10)
+    {
+        return str::random($length);
     }
     public function store(Request $request)
     {
@@ -28,6 +33,7 @@ class CollectorController extends Controller
             // Store the analytics data
             $analytics = new Analytics;
             $analytics->url = $request->input('url');
+            $analytics->url_code = $this->generateUniqueId();
             $analytics->title = $request->input('title');
             $analytics->referrer = $request->input('referrer');
             $analytics->device_type = $request->input('device_type');
