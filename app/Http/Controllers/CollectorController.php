@@ -29,13 +29,25 @@ class CollectorController extends Controller
                 ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
         }
 
+        //Check if the session ID has been set before
+        $sessionID = $request->input('session_id');
+        $entrance = 1;
+        $session_start = 1;
+        if (Analytics::where('session_id',$sessionID)->exists()) {
+            $entrance = 0;
+            $session_start = 0;
+        }
+
         try {
             // Store the analytics data
+
             $analytics = new Analytics;
             $analytics->url = $request->input('url');
             $analytics->url_code = $this->generateUniqueId();
             $analytics->title = $request->input('title');
             $analytics->referrer = $request->input('referrer');
+            $analytics->entrance = $entrance;
+            $analytics->session_start = $session_start;
             $analytics->device_type = $request->input('device_type');
             $analytics->project_code = $request->input('project_code');
             $analytics->session_id = $request->input('session_id');
