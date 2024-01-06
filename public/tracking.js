@@ -1,3 +1,10 @@
+/*
+*  MEASURETANK TRACKER
+*  2023 Copyright
+*  Measuretank.com
+*  V2
+*/
+
 (function() {
     var projectCode = document.currentScript.getAttribute('data-project-code');
     //console.log('Start:');
@@ -31,15 +38,15 @@
         return sessionId;
     }
 
-    function collectLinkClicks() {
-        document.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-
-                var sendData2 = sendData({ eventType: 'linkClick', linkUrl: link.href });
-                //console.log(sendData2);
-            });
-        });
-    }
+    //function collectLinkClicks() {
+    //    document.querySelectorAll('a').forEach(function(link) {
+    //        link.addEventListener('click', function() {
+//
+    //            var sendData2 = sendData({ eventType: 'linkClick', linkUrl: link.href });
+    //            //console.log(sendData2);
+    //        });
+    //    });
+    //}
 
     function collectFormSubmissions() {
         document.querySelectorAll('form').forEach(function(form, index) {
@@ -56,7 +63,48 @@
         });
     }
 
-    function collectData() {
+   function collectLinkClicks() {
+    document.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+
+            var clickedLink = event.currentTarget;
+
+            // Collecting additional data
+            var linkText = clickedLink.textContent || clickedLink.innerText;
+            var clickClass = clickedLink.className;
+            var clickId = clickedLink.id;
+            var dataAttributes = Array.from(clickedLink.attributes)
+                                      .filter(attr => attr.name.startsWith('data-'))
+                                      .reduce((attrs, attr) => {
+                                          attrs[attr.name] = attr.value;
+                                          return attrs;
+                                      }, {});
+            var pageUrl = window.location.href;
+            var clickType = clickedLink.href.startsWith(window.location.origin) ? 'inbound' : 'outbound';
+            var coordinates = { x: event.clientX, y: event.clientY };
+
+            // Send the collected data
+            var sendData2 = sendData({
+                eventType: 'linkClick',
+                session_id: getSessionId(),
+                linkUrl: clickedLink.href,
+                project_code: projectCode,
+                linkText: linkText,
+                clickClass: clickClass,
+                clickId: clickId,
+                dataAttributes: dataAttributes,
+                pageUrl: pageUrl,
+                clickType: clickType,
+                coordinates: coordinates
+            });
+
+            //console.log(sendData2);
+        });
+    });
+}
+
+
+    function collectPageLoad() {
         var outBoundLinks = [],
         inBoundLinks = [];
 
@@ -72,6 +120,7 @@
             }
         }
         var data = {
+            eventType: 'pageLoad',
             url: window.location.href,
             title: document.title,
             referrer: document.referrer,
@@ -129,13 +178,13 @@
 
     if (window.addEventListener) {
         window.addEventListener('load', function() {
-            collectData();
+            collectPageLoad();
             collectLinkClicks();
             collectFormSubmissions();
         }, false);
     } else if (window.attachEvent) {
         window.attachEvent('onload', function() {
-            collectData();
+            collectPageLoad();
             collectLinkClicks();
             collectFormSubmissions();
         });
