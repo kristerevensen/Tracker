@@ -2,7 +2,7 @@
 *  MEASURETANK TRACKER
 *  2023 Copyright
 *  Measuretank.com
-*  V2
+*  V2.02
 */
 
 (function() {
@@ -48,20 +48,61 @@
     //    });
     //}
 
-    function collectFormSubmissions() {
-        document.querySelectorAll('form').forEach(function(form, index) {
-            form.addEventListener('submit', function() {
-                sendData({
-                    eventType: 'formSubmit',
-                    formDetails: {
-                        name: form.name,
-                        id: form.id,
-                        elementCount: form.elements.length
-                    }
-                });
+    //function collectFormSubmissions() {
+    //    document.querySelectorAll('form').forEach(function(form, index) {
+    //        form.addEventListener('submit', function() {
+    //            sendData({
+    //                eventType: 'formSubmit',
+    //                formDetails: {
+     //                   name: form.name,
+    //                    id: form.id,
+    //                    elementCount: form.elements.length
+    //                }
+   //             });
+   //         });
+   //     });
+   // }
+
+   function collectFormSubmissions() {
+    document.querySelectorAll('form').forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            // Prevent the form from submitting immediately
+            event.preventDefault();
+
+            var formData = new FormData(form);
+            var formElements = {};
+
+            // Loop through the form elements and store their names and values
+            for (var [key, value] of formData.entries()) {
+                formElements[key] = value;
+            }
+
+            // Collecting additional form data
+            var formDetails = {
+                name: form.name || '',
+                id: form.id || '',
+                action: form.action || '',
+                method: form.method || '',
+                elementCount: form.elements.length,
+                elements: formElements
+            };
+
+            // Send the collected data
+            sendData({
+                eventType: 'formSubmit',
+                session_id: getSessionId(),
+                project_code: projectCode,
+                formDetails: formDetails,
+                pageUrl: window.location.href
             });
+
+            // After data is sent, you can submit the form
+            // Remove the next line if you handle form submission asynchronously
+            form.submit();
         });
-    }
+    });
+}
+
 
    function collectLinkClicks() {
     document.querySelectorAll('a').forEach(function(link) {
@@ -85,16 +126,16 @@
 
             // Send the collected data
             var sendData2 = sendData({
-                eventType: 'linkClick',
+                event_type: 'linkClick',
                 session_id: getSessionId(),
-                linkUrl: clickedLink.href,
+                link_url: clickedLink.href,
                 project_code: projectCode,
-                linkText: linkText,
-                clickClass: clickClass,
-                clickId: clickId,
-                dataAttributes: dataAttributes,
-                pageUrl: pageUrl,
-                clickType: clickType,
+                link_text: linkText,
+                click_class: clickClass,
+                click_id: clickId,
+                data_attributes: dataAttributes,
+                page_url: pageUrl,
+                click_type: clickType,
                 coordinates: coordinates
             });
 
