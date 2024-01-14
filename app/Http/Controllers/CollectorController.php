@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Analytics;
 use App\Models\DataLinkClicks;
+use App\Models\FormSubmission;
 use App\Models\LinkClicks;
 use App\Models\Project;
 use Illuminate\Support\Str;
@@ -57,6 +58,7 @@ class CollectorController extends Controller
 
             // Assign data from request to the analytics model
             $analytics->url = $request->input('url');
+            $analytics->event_type = $request->input('eventType');
             $analytics->url_code = $this->generateUrlCode($request->input('url'));
             $analytics->title = $request->input('title');
             $analytics->referrer = $request->input('referrer');
@@ -99,6 +101,7 @@ class CollectorController extends Controller
 
             // Assign data from the request to the link click model
             $linkClick->session_id = $request->input('session_id');
+            $linkClick->event_type = $request->input('eventType');
             $linkClick->project_code = $request->input('project_code');
             $linkClick->link_url = $request->input('linkUrl');
             $linkClick->url_code = $this->generateUrlCode($request->input('linkUrl'));
@@ -119,6 +122,35 @@ class CollectorController extends Controller
             return response()->json(['error' => 'Failed to store link click data', 'details' => $e->getMessage()], 500);
         }
     }
+
+    protected function handleFormSubmit(Request $request)
+    {
+        $projectCode = $request->input('project_code');
+        if (!$this->validateProjectCode($projectCode)) {
+            return response()->json(['error' => 'Invalid project code'], 400);
+        }
+
+        try {
+            // Create a new instance for form submission data
+            $formSubmission = new FormSubmission;
+
+            // Assign data from the request to the form submission model
+            $formSubmission->session_id = $request->input('session_id');
+            $formSubmission->project_code = $projectCode;
+            $formSubmission->form_id = $request->input('formDetails.id');
+            $formSubmission->form_name = $request->input('formDetails.name');
+            $formSubmission->page_url = $request->input('pageUrl');
+            $formSubmission->form_data = json_encode($request->input('formDetails.elements'));
+
+            // Save the form submission data
+            $formSubmission->save();
+
+            return response()->json(['message' => 'Form submission data stored successfully'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to store form submission data', 'details' => $e->getMessage()], 500);
+        }
+    }
+
 
     protected function validateProjectCode($projectCode)
     {
