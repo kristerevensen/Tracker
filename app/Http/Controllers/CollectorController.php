@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataPage;
 use Illuminate\Http\Request;
 use App\Models\Analytics;
 use App\Models\DataLinkClicks;
@@ -54,7 +55,7 @@ class CollectorController extends Controller
         }
         try {
             // Create a new Analytics instance
-            $analytics = new Analytics;
+            $analytics = new DataPage;
 
             // Assign data from request to the analytics model
             $analytics->url = $request->input('url');
@@ -164,7 +165,7 @@ class CollectorController extends Controller
     protected function determineEntrance($sessionID)
     {
         // Check if the session ID exists in the database
-        return Analytics::where('session_id', $sessionID)->doesntExist() ? 1 : 0;
+        return DataPage::where('session_id', $sessionID)->doesntExist() ? 1 : 0;
     }
 
 
