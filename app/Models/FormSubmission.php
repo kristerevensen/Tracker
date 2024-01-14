@@ -15,6 +15,9 @@ class FormSubmission extends Model
         'form_data'
     ];
 
+    protected $table = 'form_submissions';
+
+
     // If you're using JSON columns, make sure to cast them appropriately
     protected $casts = [
         'form_data' => 'array'

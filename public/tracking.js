@@ -125,19 +125,21 @@
             var coordinates = { x: event.clientX, y: event.clientY };
 
             // Send the collected data
+            // Send the collected data
             var sendData2 = sendData({
-                event_type: 'linkClick',
+                eventType: 'linkClick', // Changed to match the PHP side
                 session_id: getSessionId(),
-                link_url: clickedLink.href,
+                linkUrl: clickedLink.href, // Changed to match the PHP side
                 project_code: projectCode,
-                link_text: linkText,
-                click_class: clickClass,
-                click_id: clickId,
-                data_attributes: dataAttributes,
-                page_url: pageUrl,
-                click_type: clickType,
+                linkText: linkText, // Changed to match the PHP side
+                clickClass: clickClass, // Changed to match the PHP side
+                clickId: clickId, // Changed to match the PHP side
+                dataAttributes: dataAttributes, // Changed to match the PHP side
+                pageUrl: window.location.href, // Changed to match the PHP side
+                clickType: clickType, // Changed to match the PHP side
                 coordinates: coordinates
             });
+
 
             //console.log(sendData2);
         });

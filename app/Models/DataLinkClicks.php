@@ -15,6 +15,8 @@ class DataLinkClicks extends Model
         'coordinates_x', 'coordinates_y', 'session_id', 'project_code'
     ];
 
+    protected $table = 'link_clicks';
+
     /**
      * Get the project that the link click belongs to.
      */
