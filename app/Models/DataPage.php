@@ -18,7 +18,7 @@ class DataPage extends Model
         'protocol', 'pathname', 'bounce', 'language', 'meta_description',
         'cookie_enabled', 'screen_width', 'screen_height', 'history_length',
         'word_count', 'form_count', 'inbound_links', 'outbound_links',
-        'owner_id'
+        'owner_id', 'page_content', 'content_hash'
     ];
 
      // For example, if 'owner_id' refers to a User model

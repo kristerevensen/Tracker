@@ -60,6 +60,8 @@ class CollectorController extends Controller
             // Assign data from request to the analytics model
             $analytics->url = $request->input('url');
             $analytics->event_type = $request->input('eventType');
+            $analytics->content_hash = $request->input('contentHash');
+            $analytics->page_content = $request->input('pageContent');
             $analytics->url_code = $this->generateUrlCode($request->input('url'));
             $analytics->title = $request->input('title');
             $analytics->referrer = $request->input('referrer');
