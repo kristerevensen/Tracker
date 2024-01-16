@@ -164,13 +164,16 @@
         for (const link of links) {
             const href = link.getAttribute('href');
             if (href && href.indexOf('http') === 0) {
-                if (href.startsWith(window.location.hostname)) {
+                // Check if the link is internal
+                const url = new URL(href);
+                if (url.hostname === window.location.hostname) {
                     inBoundLinks.push(href);
                 } else {
                     outBoundLinks.push(href);
                 }
             }
         }
+
 
          // Create a hash of the page content
         var pageContent = document.body.innerText;
