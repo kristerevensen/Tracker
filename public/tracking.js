@@ -231,12 +231,18 @@
         return metaDesc;
     }
 
+    //function sendData(data) {
+      //  var xhr = new XMLHttpRequest();
+        //xhr.open('POST', 'https://tracking.measuretank.com/collector', true);
+        //xhr.setRequestHeader('Content-Type', 'application/json');
+        //xhr.send(JSON.stringify(data));
+    //}
+
     function sendData(data) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://tracking.measuretank.com/collector', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
+        var blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        navigator.sendBeacon('https://tracking.measuretank.com/collector', blob);
     }
+
 
     if (window.addEventListener) {
         window.addEventListener('load', function() {
