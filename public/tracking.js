@@ -2,7 +2,7 @@
 *  MEASURETANK TRACKER
 *  2023 Copyright
 *  Measuretank.com
-*  V2.02
+*  V2.02 ALPHA
 */
 
 (function() {
