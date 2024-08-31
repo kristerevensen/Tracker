@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\DataPage;
 use App\Models\DataLinkClicks;
 use App\Models\FormSubmission;
-use App\Models\Project;
 use Illuminate\Support\Str;
 
 class CollectorController extends Controller
