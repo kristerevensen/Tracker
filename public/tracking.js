@@ -91,6 +91,8 @@
             inbound_links: inBoundLinks.join(',')
         };
 
+        console.log(data);
+
         sendData(data);
     }
 
