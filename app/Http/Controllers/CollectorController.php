@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DataPage;
 use Illuminate\Http\Request;
 use App\Models\Analytics;
+use App\Models\Conversion;
 use App\Models\DataLinkClicks;
 use App\Models\FormSubmission;
 use App\Models\LinkClicks;
@@ -41,10 +42,43 @@ class CollectorController extends Controller
             case 'formSubmit':
                 return $this->handleFormSubmit($request);
 
+            case 'conversion':  // Ny case for konverteringer
+                return $this->handleConversion($request);
+
             default:
                 return response()->json(['error' => 'Unknown event type'], 400);
         }
     }
+
+
+    protected function handleConversion(Request $request)
+{
+    $projectCode = $request->input('project_code');
+    if (!$this->validateProjectCode($projectCode)) {
+        return response()->json(['error' => 'Invalid project code'], 400);
+    }
+
+    try {
+        // Lagre konverteringsdataene
+        $conversion = new Conversion;
+
+        $conversion->session_id = $request->input('session_id');
+        $conversion->project_code = $projectCode;
+        $conversion->conversion_type = $request->input('conversionType');
+        $conversion->conversion_value = $request->input('conversionValue');
+        $conversion->page_url = $request->input('pageUrl');
+        $conversion->referrer = $request->input('referrer');
+        $conversion->timestamp = now();
+
+        // Lagre konverteringsdata
+        $conversion->save();
+
+        return response()->json(['message' => 'Conversion data stored successfully'], 201);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to store conversion data', 'details' => $e->getMessage()], 500);
+    }
+}
+
 
 
     protected function handlePageLoad(Request $request)
