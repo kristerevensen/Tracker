@@ -146,9 +146,14 @@ class CollectorController extends Controller
         if (!$this->validateProjectCode($projectCode)) {
             return response()->json(['error' => 'Invalid project code'], 400);
         }
-        // if the pageUrl contains gtm-msr.appspot.com then it is not a conversion
-        if (Str::contains($request->input('pageUrl'), 'gtm-msr.appspot.com')) {
-            return response()->json(['error' => 'Invalid conversion data'], 400);
+
+        //get the domain from the project code
+        $project = Project::where('project_code', $projectCode)->first();
+        $domain = $project->domain;
+
+        // if the pageUrl is different than the $domain, return an error
+        if (strpos($request->input('pageUrl'), $domain) === false) {
+            return response()->json(['error' => 'Invalid page URL'], 400);
         }
 
         try {
