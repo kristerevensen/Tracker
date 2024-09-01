@@ -6,19 +6,19 @@
 */
 
 (function() {
-    // Hent prosjektkoden fra script-attributtet
+    // Get project code from script attribute
     var projectCode = document.currentScript.getAttribute('data-project-code');
 
-    // Hent conversionType og conversionValue fra script-attributtene
+    // Get conversionType and conversionValue from script attributes
     var conversionType = document.currentScript.getAttribute('data-conversion-type');
     var conversionValue = document.currentScript.getAttribute('data-conversion-value');
 
-    // Hent session ID fra det eksisterende sporingsscriptet (antatt satt i localStorage)
+    // Function to retrieve the session ID from the existing tracking script (assumed to be set in localStorage)
     function getSessionId() {
         return localStorage.getItem('mt_session_id');
     }
 
-    // Funksjon for å spore en enkel konvertering
+    // Function to track a simple conversion
     function trackConversion(conversionType, conversionValue) {
         var sessionId = getSessionId();
         var currentTime = new Date().toISOString();
@@ -37,13 +37,29 @@
         sendConversionData(conversionData);
     }
 
-    // Funksjon for å sende konverteringsdata
+    // Function to send conversion data via a 1x1 pixel image request
     function sendConversionData(data) {
-        var blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-        navigator.sendBeacon('https://tracking.measuretank.com/collector', blob);  // Bruk samme endpoint
+        var baseUrl = 'https://tracking.measuretank.com/collector';
+        var params = [];
+
+        // Convert the data object to URL parameters
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                params.push(`${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`);
+            }
+        }
+
+        // Create the full URL with query parameters
+        var url = `${baseUrl}?${params.join('&')}`;
+
+        // Create and load the tracking pixel (1x1 image)
+        var trackingPixel = new Image(1, 1);
+        trackingPixel.src = url;
+
+        // Optionally, append the image to the body (it won't be visible)
+        document.body.appendChild(trackingPixel);
     }
 
-
-    // Kjør konverteringssporing umiddelbart ved innlasting av dette skriptet
+    // Trigger conversion tracking immediately upon loading this script
     trackConversion(conversionType, conversionValue);
 })();
