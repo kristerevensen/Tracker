@@ -141,6 +141,7 @@ class CollectorController extends Controller
         }
     }
 
+
     protected function handleConversion(Request $request)
     {
 
