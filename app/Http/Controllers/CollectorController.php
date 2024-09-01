@@ -131,7 +131,7 @@ class CollectorController extends Controller
             $formSubmission->form_id = $request->input('formDetails.id');
             $formSubmission->form_name = $request->input('formDetails.name');
             $formSubmission->page_url = $request->input('pageUrl');
-            $formSubmission->form_data = json_encode($request->input('formDetails.elements'));
+            //$formSubmission->form_data = json_encode($request->input('formDetails.elements'));
 
             $formSubmission->save();
 
