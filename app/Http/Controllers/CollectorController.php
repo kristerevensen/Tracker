@@ -46,6 +46,7 @@ class CollectorController extends Controller
             return response()->json(['error' => 'Invalid project code'], 400);
         }
 
+
         try {
             $analytics = new DataPage;
 
@@ -144,6 +145,10 @@ class CollectorController extends Controller
         $projectCode = $request->input('project_code');
         if (!$this->validateProjectCode($projectCode)) {
             return response()->json(['error' => 'Invalid project code'], 400);
+        }
+        // if the pageUrl contains gtm-msr.appspot.com then it is not a conversion
+        if (Str::contains($request->input('pageUrl'), 'gtm-msr.appspot.com')) {
+            return response()->json(['error' => 'Invalid conversion data'], 400);
         }
 
         try {
