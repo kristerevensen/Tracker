@@ -11,20 +11,17 @@ use Illuminate\Support\Str;
 
 class CollectorController extends Controller
 {
-    public function index(Request $request)
+    public function store(Request $request)
     {
         $eventType = $request->query('eventType');
 
         switch ($eventType) {
             case 'pageLoad':
                 return $this->handlePageLoad($request);
-
             case 'linkClick':
                 return $this->handleLinkClick($request);
-
             case 'formSubmit':
                 return $this->handleFormSubmit($request);
-
             default:
                 return response()->json(['error' => 'Unknown event type'], 400);
         }
