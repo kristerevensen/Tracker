@@ -44,6 +44,7 @@
         var url = `${baseUrl}?${params.join('&')}`;
         var trackingPixel = new Image(1, 1);
         trackingPixel.src = url;
+        console.log(trackingPixel);
         document.body.appendChild(trackingPixel);
     }
 
