@@ -15,7 +15,7 @@
 
     // Function to retrieve the session ID from the existing tracking script (assumed to be set in localStorage)
     function getSessionId() {
-        return localStorage.getItem('mt_session_id');
+        return localStorage.getItem('mt_session_id'); 
     }
 
     // Function to track a simple conversion
