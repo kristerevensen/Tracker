@@ -33,6 +33,7 @@
             pageUrl: window.location.href,
             referrer: document.referrer
         };
+        console.log(conversionData);
 
         sendConversionData(conversionData);
     }
@@ -55,6 +56,7 @@
         // Create and load the tracking pixel (1x1 image)
         var trackingPixel = new Image(1, 1);
         trackingPixel.src = url;
+        console.log(trackingPixel);
 
         // Optionally, append the image to the body (it won't be visible)
         document.body.appendChild(trackingPixel);
