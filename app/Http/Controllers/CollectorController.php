@@ -143,6 +143,7 @@ class CollectorController extends Controller
 
     protected function handleConversion(Request $request)
     {
+
         $goalCode = $request->input('goal_uuid');
         if (!$this->validateGoal($goalCode)) {
             return response()->json(['error' => 'Invalid goal code'], 400);

@@ -2,7 +2,7 @@
 *  MEASURETANK SIMPLE CONVERSION TRACKER
 *  2023 Copyright
 *  Measuretank.com
-*  V1.01
+*  V1.03 ALPHA
 */
 
 (function() {
@@ -15,7 +15,7 @@
     }
 
     // Function to track a simple conversion
-    function trackConversion(conversionType, conversionValue) {
+    function trackConversion(goal_uuid) {
         var sessionId = getSessionId();
         var currentTime = new Date().toISOString();
 
@@ -57,5 +57,5 @@
     }
 
     // Trigger conversion tracking immediately upon loading this script
-    trackConversion(conversionType, conversionValue);
+    trackConversion(goal_uuid);
 })();
