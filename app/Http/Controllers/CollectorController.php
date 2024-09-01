@@ -153,7 +153,6 @@ class CollectorController extends Controller
             $conversion->project_code = $projectCode;
             $conversion->conversion_type = $request->input('conversionType');
             $conversion->conversion_value = $request->input('conversionValue');
-            $conversion->timestamp = $request->input('timestamp');
             $conversion->page_url = $request->input('pageUrl');
             $conversion->referrer = $request->input('referrer');
 
