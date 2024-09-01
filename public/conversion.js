@@ -7,15 +7,11 @@
 
 (function() {
     // Get project code from script attribute
-    var projectCode = document.currentScript.getAttribute('data-project-code');
-
-    // Get conversionType and conversionValue from script attributes
-    var conversionType = document.currentScript.getAttribute('data-conversion-type');
-    var conversionValue = document.currentScript.getAttribute('data-conversion-value');
+    var goal_uuid = document.currentScript.getAttribute('data-conversion-uuid');
 
     // Function to retrieve the session ID from the existing tracking script (assumed to be set in localStorage)
     function getSessionId() {
-        return localStorage.getItem('mt_session_id'); 
+        return localStorage.getItem('mt_session_id');
     }
 
     // Function to track a simple conversion
@@ -26,9 +22,7 @@
         var conversionData = {
             eventType: 'conversion',
             session_id: sessionId,
-            project_code: projectCode,
-            conversionType: conversionType,
-            conversionValue: conversionValue,
+            goal_uuid: goal_uuid,
             timestamp: currentTime,
             pageUrl: window.location.href,
             referrer: document.referrer

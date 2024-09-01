@@ -7,6 +7,7 @@ use App\Models\DataPage;
 use App\Models\DataLinkClicks;
 use App\Models\FormSubmission;
 use App\Models\Conversion;
+use App\Models\Goal;
 use App\Models\Project;
 use Illuminate\Support\Str;
 
@@ -142,12 +143,15 @@ class CollectorController extends Controller
 
     protected function handleConversion(Request $request)
     {
-        $projectCode = $request->input('project_code');
-        if (!$this->validateProjectCode($projectCode)) {
-            return response()->json(['error' => 'Invalid project code'], 400);
+        $goalCode = $request->input('goal_uuid');
+        if (!$this->validateGoal($goalCode)) {
+            return response()->json(['error' => 'Invalid goal code'], 400);
         }
 
-        //get the domain from the project code
+        //get the domain from the goal_uuid in goal table, and check if the pageUrl is from the same domain, if not return an error
+        $goal = Goal::where('goal_uuid', $goalCode)->first();
+        $projectCode = $goal->project_code;
+
         $project = Project::where('project_code', $projectCode)->first();
         $domain = $project->domain;
 
@@ -158,11 +162,8 @@ class CollectorController extends Controller
 
         try {
             $conversion = new Conversion;
-
             $conversion->session_id = $request->input('session_id');
-            $conversion->project_code = $projectCode;
-            $conversion->conversion_type = $request->input('conversionType');
-            $conversion->conversion_value = $request->input('conversionValue');
+            $conversion->goal_uuid = $goalCode;
             $conversion->page_url = $request->input('pageUrl');
             $conversion->referrer = $request->input('referrer');
 
@@ -177,6 +178,12 @@ class CollectorController extends Controller
     protected function validateProjectCode($projectCode)
     {
         return Project::where('project_code', $projectCode)->exists();
+    }
+
+
+    protected function validateGoal($goalCode)
+    {
+        return Goal::where('goal_uuid', $goalCode)->exists();
     }
 
     protected function generateUrlCode($url)
