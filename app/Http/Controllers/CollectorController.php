@@ -146,12 +146,12 @@ class CollectorController extends Controller
     {
 
         $goalCode = $request->input('goal_uuid');
-        if (!$this->validateGoal($goalCode)) {
-            return response()->json(['error' => 'Invalid goal code'], 400);
-        }
 
         //get the domain from the goal_uuid in goal table, and check if the pageUrl is from the same domain, if not return an error
         $goal = Goal::where('goal_uuid', $goalCode)->first();
+        if (!$goal) {
+            return response()->json(['error' => 'Invalid goal code'], 400);
+        }
         $projectCode = $goal->project_code;
 
         $project = Project::where('project_code', $projectCode)->first();
@@ -185,6 +185,7 @@ class CollectorController extends Controller
 
     protected function validateGoal($goalCode)
     {
+        // check to see if the goal_id exists in the goals table
         return Goal::where('goal_uuid', $goalCode)->exists();
     }
 
